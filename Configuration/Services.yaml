@@ -1,0 +1,16 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Ppl\PplDeeplV2Translate\:
+    resource: '../Classes/*'
+    exclude: '../Classes/Domain/Model/Unused/*'
+
+  Ppl\PplDeeplV2Translate\Service\Api\DeepLApiAdapterInterface:
+    alias: Ppl\PplDeeplV2Translate\Service\Api\V2DeepLPhpAdapter
+
+  Ppl\PplDeeplV2Translate\Controller\:
+    resource: '../Classes/Controller/*'
+    public: true

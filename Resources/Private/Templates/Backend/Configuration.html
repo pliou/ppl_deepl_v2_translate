@@ -1,0 +1,251 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+    <div class="ppl-deepl">
+        <div class="ppl-deepl__head">
+            <h1><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:config.title" /></h1>
+            <p><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:config.intro.v2" /></p>
+        </div>
+
+        <f:for each="{messages}" as="message">
+            <div class="ppl-deepl__{message.type}">{message.text}</div>
+        </f:for>
+
+        <f:if condition="{authKeyConfigured}">
+            <f:else>
+                <div class="ppl-deepl__error"><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:error.missingAuthKey.v2" /></div>
+            </f:else>
+        </f:if>
+
+        <div class="ppl-deepl__tabs">
+            <f:if condition="{activeConfigTab} == 'glossaries'">
+                <f:then><a class="btn btn-primary ppl-deepl__tab" href="{routeConfigurationGlossaries}" data-scroll-anchor="config-glossaries"><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:config.glossaries" /></a></f:then>
+                <f:else><a class="btn btn-default ppl-deepl__tab" href="{routeConfigurationGlossaries}" data-scroll-anchor="config-glossaries"><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:config.glossaries" /></a></f:else>
+            </f:if>
+            <f:if condition="{activeConfigTab} == 'languages'">
+                <f:then><a class="btn btn-primary ppl-deepl__tab" href="{routeConfigurationLanguages}" data-scroll-anchor="config-languages"><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:config.languages" /></a></f:then>
+                <f:else><a class="btn btn-default ppl-deepl__tab" href="{routeConfigurationLanguages}" data-scroll-anchor="config-languages"><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:config.languages" /></a></f:else>
+            </f:if>
+            <f:if condition="{activeConfigTab} == 'frontend_access'">
+                <f:then><a class="btn btn-primary ppl-deepl__tab" href="{routeConfigurationFrontendAccess}" data-scroll-anchor="config-access"><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:config.frontendAccess" /></a></f:then>
+                <f:else><a class="btn btn-default ppl-deepl__tab" href="{routeConfigurationFrontendAccess}" data-scroll-anchor="config-access"><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:config.frontendAccess" /></a></f:else>
+            </f:if>
+        </div>
+
+        <f:if condition="{activeConfigTab} == 'languages'">
+            <f:then>
+                <div id="config-languages" class="ppl-deepl__card" data-scroll-anchor="config-languages">
+                    <div class="ppl-deepl__card-head">
+                        <strong><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:config.languages" /></strong>
+                        <span class="ppl-deepl__muted"><f:count subject="{languages}" /> <f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:config.storedLocal" /></span>
+                    </div>
+                    <div class="ppl-deepl__card-body">
+                        <form method="post" action="{routeConfiguration}" id="pplDeeplV2LanguageForm">
+                            <input type="hidden" name="config_tab" value="languages">
+                            <div class="ppl-deepl__actions">
+                                <button class="btn btn-default" type="submit" name="module_action" value="fetch_languages" data-scroll-anchor="config-languages"><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:config.fetchLanguages" /></button>
+                                <f:if condition="{languages}">
+                                    <button class="btn btn-primary" type="submit" name="module_action" value="{saveLanguageAction}" data-scroll-anchor="config-languages"><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:config.saveApprovals" /></button>
+                                    <button class="btn btn-default" type="button" data-language-selection="all"><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:config.selectAllLanguages" /></button>
+                                    <button class="btn btn-default" type="button" data-language-selection="none"><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:config.deselectAllLanguages" /></button>
+                                </f:if>
+                            </div>
+
+                            <f:if condition="{languages}">
+                                <f:then>
+                                    <div class="ppl-deepl__language-list ppl-deepl__section">
+                                        <f:if condition="{enabledLanguages}">
+                                            <div class="ppl-deepl__language-group">
+                                                <div class="ppl-deepl__language-group-head">
+                                                    <strong><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:config.selectedLanguages" /></strong>
+                                                    <span class="ppl-deepl__muted"><f:count subject="{enabledLanguages}" /></span>
+                                                </div>
+                                                <div class="ppl-deepl__option-grid ppl-deepl__option-grid--languages">
+                                                    <f:for each="{enabledLanguages}" as="language">
+                                                        <label class="ppl-deepl__option ppl-deepl__language-option">
+                                                            <input type="checkbox" name="enabled_languages[]" value="{language.code}" checked="checked">
+                                                            <span>
+                                                                <strong>{language.name}</strong>
+                                                                <br>
+                                                                <span class="ppl-deepl__muted">{language.code}</span>
+                                                            </span>
+                                                        </label>
+                                                    </f:for>
+                                                </div>
+                                            </div>
+                                        </f:if>
+
+                                        <f:if condition="{disabledLanguages}">
+                                            <div class="ppl-deepl__language-group">
+                                                <div class="ppl-deepl__language-group-head">
+                                                    <strong><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:config.otherLanguages" /></strong>
+                                                    <span class="ppl-deepl__muted"><f:count subject="{disabledLanguages}" /></span>
+                                                </div>
+                                                <div class="ppl-deepl__option-grid ppl-deepl__option-grid--languages">
+                                                    <f:for each="{disabledLanguages}" as="language">
+                                                        <label class="ppl-deepl__option ppl-deepl__language-option">
+                                                            <input type="checkbox" name="enabled_languages[]" value="{language.code}">
+                                                            <span>
+                                                                <strong>{language.name}</strong>
+                                                                <br>
+                                                                <span class="ppl-deepl__muted">{language.code}</span>
+                                                            </span>
+                                                        </label>
+                                                    </f:for>
+                                                </div>
+                                            </div>
+                                        </f:if>
+                                    </div>
+                                </f:then>
+                                <f:else>
+                                    <div class="ppl-deepl__notice ppl-deepl__section"><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:config.noLanguages" /></div>
+                                </f:else>
+                            </f:if>
+                        </form>
+                    </div>
+                </div>
+            </f:then>
+            <f:else>
+                <f:if condition="{activeConfigTab} == 'frontend_access'">
+                    <f:then>
+                        <div id="config-access" class="ppl-deepl__card" data-scroll-anchor="config-access">
+                            <div class="ppl-deepl__card-head">
+                                <strong><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:backend.loginBehavior" /></strong>
+                                <span class="ppl-deepl__muted"><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:backend.frontendLoginApplies" /></span>
+                            </div>
+                            <div class="ppl-deepl__card-body">
+                                <form method="post" action="{routeConfiguration}">
+                                    <input type="hidden" name="config_tab" value="frontend_access">
+                                    <input type="hidden" name="module_action" value="save_frontend_access">
+
+                                    <div class="ppl-deepl__settings-grid ppl-deepl__section">
+                                        <label class="ppl-deepl__option">
+                                            <f:if condition="{frontendAccessConfiguration.frontendAccessMode} == 'ppl_login'">
+                                                <f:then><input type="radio" name="frontend_access_mode" value="ppl_login" checked="checked"></f:then>
+                                                <f:else><input type="radio" name="frontend_access_mode" value="ppl_login"></f:else>
+                                            </f:if>
+                                            <span>
+                                                <strong><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:backend.usePplLogin" /></strong>
+                                                <br>
+                                                <span class="ppl-deepl__muted"><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:backend.loginPplDescription" /></span>
+                                            </span>
+                                        </label>
+                                        <label class="ppl-deepl__option">
+                                            <f:if condition="{frontendAccessConfiguration.frontendAccessMode} == 'login_page'">
+                                                <f:then><input type="radio" name="frontend_access_mode" value="login_page" checked="checked"></f:then>
+                                                <f:else><input type="radio" name="frontend_access_mode" value="login_page"></f:else>
+                                            </f:if>
+                                            <span>
+                                                <strong><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:backend.useLoginByPageId" /></strong>
+                                                <br>
+                                                <span class="ppl-deepl__muted"><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:backend.loginPageDescription" /></span>
+                                            </span>
+                                        </label>
+                                    </div>
+
+                                    <div class="ppl-deepl__section">
+                                        <strong><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:backend.allowedUserTypes" /></strong>
+                                        <div class="ppl-deepl__settings-grid ppl-deepl__section">
+                                            <label class="ppl-deepl__option">
+                                                <input type="hidden" name="allow_frontend_users" value="0">
+                                                <f:if condition="{frontendAccessConfiguration.allowFrontendUsers}">
+                                                    <f:then><input type="checkbox" name="allow_frontend_users" value="1" checked="checked"></f:then>
+                                                    <f:else><input type="checkbox" name="allow_frontend_users" value="1"></f:else>
+                                                </f:if>
+                                                <span>
+                                                    <strong><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:backend.allowFrontendUsers" /></strong>
+                                                    <br>
+                                                    <span class="ppl-deepl__muted"><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:backend.allowFrontendUsersDescription" /></span>
+                                                </span>
+                                            </label>
+                                            <label class="ppl-deepl__option">
+                                                <input type="hidden" name="allow_backend_users" value="0">
+                                                <f:if condition="{frontendAccessConfiguration.allowBackendUsers}">
+                                                    <f:then><input type="checkbox" name="allow_backend_users" value="1" checked="checked"></f:then>
+                                                    <f:else><input type="checkbox" name="allow_backend_users" value="1"></f:else>
+                                                </f:if>
+                                                <span>
+                                                    <strong><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:backend.allowBackendUsers" /></strong>
+                                                    <br>
+                                                    <span class="ppl-deepl__muted"><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:backend.allowBackendUsersDescription" /></span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="ppl-deepl__section">
+                                        <strong><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:backend.logoutDisplay" /></strong>
+                                        <div class="ppl-deepl__settings-grid ppl-deepl__section">
+                                            <label class="ppl-deepl__option">
+                                                <input type="hidden" name="show_logout" value="0">
+                                                <f:if condition="{frontendAccessConfiguration.showLogout}">
+                                                    <f:then><input type="checkbox" name="show_logout" value="1" checked="checked"></f:then>
+                                                    <f:else><input type="checkbox" name="show_logout" value="1"></f:else>
+                                                </f:if>
+                                                <span>
+                                                    <strong><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:backend.showLogout" /></strong>
+                                                    <br>
+                                                    <span class="ppl-deepl__muted"><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:backend.showLogoutDescription" /></span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="ppl-deepl__field ppl-deepl__section">
+                                        <label for="ppl_deepl_v2_login_page_uid"><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:backend.loginPageId" /></label>
+                                        <input id="ppl_deepl_v2_login_page_uid" type="number" min="0" step="1" name="login_page_uid" value="{frontendAccessConfiguration.loginPageUid}">
+                                        <span class="ppl-deepl__muted"><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:backend.loginPageHint" /></span>
+                                    </div>
+
+                                    <div class="ppl-deepl__actions ppl-deepl__section">
+                                        <button class="btn btn-primary" type="submit" data-scroll-anchor="config-access"><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:backend.saveFrontendLoginBehavior" /></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </f:then>
+                    <f:else>
+                        <div id="config-glossaries" class="ppl-deepl__card" data-scroll-anchor="config-glossaries">
+                            <div class="ppl-deepl__card-head">
+                                <strong><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:config.glossaries" /></strong>
+                                <span class="ppl-deepl__muted"><f:count subject="{glossaries}" /> <f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:config.storedLocal" /></span>
+                            </div>
+                            <div class="ppl-deepl__card-body">
+                                <form method="post" action="{routeConfiguration}">
+                                    <input type="hidden" name="config_tab" value="glossaries">
+                                    <div class="ppl-deepl__actions">
+                                        <button class="btn btn-default" type="submit" name="module_action" value="fetch_glossaries" data-scroll-anchor="config-glossaries"><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:config.fetchGlossaries" /></button>
+                                        <f:if condition="{glossaries}">
+                                            <button class="btn btn-primary" type="submit" name="module_action" value="{saveGlossaryAction}" data-scroll-anchor="config-glossaries"><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:config.saveApprovals" /></button>
+                                        </f:if>
+                                    </div>
+
+                                    <f:if condition="{glossaries}">
+                                        <f:then>
+                                            <div class="ppl-deepl__glossary-grid ppl-deepl__section">
+                                                <f:for each="{glossaries}" as="glossary">
+                                                    <label class="ppl-deepl__option">
+                                                        <f:if condition="{glossary.enabled}">
+                                                            <f:then><input type="checkbox" name="enabled_glossaries[]" value="{glossary.id}" checked="checked"></f:then>
+                                                            <f:else><input type="checkbox" name="enabled_glossaries[]" value="{glossary.id}"></f:else>
+                                                        </f:if>
+                                                        <span>
+                                                            <strong>{glossary.name}</strong>
+                                                            <br>
+                                                            <span class="ppl-deepl__muted">{glossary.languagePairs} / {glossary.entryCount} <f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:config.entries" /></span>
+                                                        </span>
+                                                    </label>
+                                                </f:for>
+                                            </div>
+                                        </f:then>
+                                        <f:else>
+                                            <div class="ppl-deepl__notice ppl-deepl__section"><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:config.noGlossaries" /></div>
+                                        </f:else>
+                                    </f:if>
+                                </form>
+                            </div>
+                        </div>
+                    </f:else>
+                </f:if>
+            </f:else>
+        </f:if>
+    </div>
+</html>

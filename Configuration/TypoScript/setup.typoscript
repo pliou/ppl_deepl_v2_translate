@@ -1,0 +1,54 @@
+page.includeCSS.pplDeeplSite = EXT:ppl_deepl_v2_translate/Resources/Public/Css/site.css
+page.includeJSFooter.pplDeeplFrontendCopy = EXT:ppl_deepl_v2_translate/Resources/Public/Javascript/frontend-copy.js
+
+plugin.tx_ppldeeplv2translate_deepl {
+    settings {
+        glossaryPid = {$plugin.tx_ppldeeplv2translate.settings.glossaryPid}
+    }
+
+    view {
+        templateRootPaths.0 = EXT:ppl_deepl_v2_translate/Resources/Private/Templates/
+        partialRootPaths.0 = EXT:ppl_deepl_v2_translate/Resources/Private/Partials/
+        layoutRootPaths.0 = EXT:ppl_deepl_v2_translate/Resources/Private/Layouts/
+    }
+
+    features {
+        skipDefaultArguments = 1
+    }
+
+    mvc {
+        callDefaultActionIfActionCantBeResolved = 1
+    }
+}
+plugin.tx_ppldeeplv2translate_deeplfile {
+    settings < plugin.tx_ppldeeplv2translate.settings
+}
+
+tt_content.ppldeeplv2translate_deepl =< lib.contentElement
+tt_content.ppldeeplv2translate_deepl {
+    templateName = Interface
+    pluginName = Deepl
+    extensionName = PplDeeplV2Translate
+}
+
+tt_content.list.20.ppldeeplv2translate_deepl = USER_INT
+tt_content.list.20.ppldeeplv2translate_deepl {
+    userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+    extensionName = PplDeeplV2Translate
+    pluginName = Deepl
+}
+
+plugin.tx_ppldeeplv2translate_deeplfile {
+    view {
+        templateRootPaths.0 = EXT:ppl_deepl_v2_translate/Resources/Private/Templates/
+        partialRootPaths.0 = EXT:ppl_deepl_v2_translate/Resources/Private/Partials/
+        layoutRootPaths.0 = EXT:ppl_deepl_v2_translate/Resources/Private/Layouts/
+    }
+}
+
+tt_content.list.20.ppldeeplv2translate_deeplfile = USER_INT
+tt_content.list.20.ppldeeplv2translate_deeplfile {
+    userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+    extensionName = PplDeeplV2Translate
+    pluginName = Deeplfile
+}

@@ -1,0 +1,2 @@
+# cat=basic//; type=string; label=DeepL Auth Key
+authKey =

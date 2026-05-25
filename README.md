@@ -12,7 +12,7 @@ The extension belongs to the same product surface as PPL DeepL V3 Translate, but
 - DeepL language fetch and local language approval.
 - DeepL glossary fetch and local glossary approval.
 - Optional writing style or tone selection where the DeepL PHP client supports it.
-- Optional frontend access protection with PPL inline login or a TYPO3 login page.
+- Optional frontend access protection with TYPO3/felogin login page mode by default, plus PPL inline login as an alternative.
 - Local storage under `var/ppl_deepl_v2_translate/`.
 
 ## Architecture
@@ -113,9 +113,11 @@ Editors can add these content elements in TYPO3:
 - PPL DeepL V2 Translation
 - PPL DeepL V2 File Translation
 
-Frontend access can be open, restricted to frontend users, restricted to backend users, or routed through the PPL inline login depending on configuration.
+Frontend access can be open, restricted to frontend users, restricted to backend users, or routed through TYPO3/felogin depending on configuration.
 
-When using a TYPO3/felogin page, enable redirect handling in the felogin plugin so users return to the protected DeepL page after login.
+`Use Login by Page ID` is the default and recommended mode for most installations. It redirects users to a configured TYPO3/felogin page, so the login flow stays inside TYPO3's maintained frontend authentication stack and benefits from TYPO3 security and maintenance updates.
+
+The PPL inline login remains available for compact embedded setups. When using a TYPO3/felogin page, enable redirect handling in the felogin plugin so users return to the protected DeepL page after login.
 
 ## Storage
 

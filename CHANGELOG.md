@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Changed the frontend access default to `Use Login by Page ID`.
+- Marked TYPO3/felogin login page mode as the recommended frontend access mode.
+
 ## 12.4.0 - 2026-05-24
 
 - Release package for TYPO3 12.4 LTS.

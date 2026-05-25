@@ -118,17 +118,6 @@
 
                                     <div class="ppl-deepl__settings-grid ppl-deepl__section">
                                         <label class="ppl-deepl__option">
-                                            <f:if condition="{frontendAccessConfiguration.frontendAccessMode} == 'ppl_login'">
-                                                <f:then><input type="radio" name="frontend_access_mode" value="ppl_login" checked="checked"></f:then>
-                                                <f:else><input type="radio" name="frontend_access_mode" value="ppl_login"></f:else>
-                                            </f:if>
-                                            <span>
-                                                <strong><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:backend.usePplLogin" /></strong>
-                                                <br>
-                                                <span class="ppl-deepl__muted"><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:backend.loginPplDescription" /></span>
-                                            </span>
-                                        </label>
-                                        <label class="ppl-deepl__option">
                                             <f:if condition="{frontendAccessConfiguration.frontendAccessMode} == 'login_page'">
                                                 <f:then><input type="radio" name="frontend_access_mode" value="login_page" checked="checked"></f:then>
                                                 <f:else><input type="radio" name="frontend_access_mode" value="login_page"></f:else>
@@ -137,6 +126,17 @@
                                                 <strong><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:backend.useLoginByPageId" /></strong>
                                                 <br>
                                                 <span class="ppl-deepl__muted"><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:backend.loginPageDescription" /></span>
+                                            </span>
+                                        </label>
+                                        <label class="ppl-deepl__option">
+                                            <f:if condition="{frontendAccessConfiguration.frontendAccessMode} == 'ppl_login'">
+                                                <f:then><input type="radio" name="frontend_access_mode" value="ppl_login" checked="checked"></f:then>
+                                                <f:else><input type="radio" name="frontend_access_mode" value="ppl_login"></f:else>
+                                            </f:if>
+                                            <span>
+                                                <strong><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:backend.usePplLogin" /></strong>
+                                                <br>
+                                                <span class="ppl-deepl__muted"><f:translate key="LLL:EXT:ppl_deepl_v2_translate/Resources/Private/Language/locallang.xlf:backend.loginPplDescription" /></span>
                                             </span>
                                         </label>
                                     </div>

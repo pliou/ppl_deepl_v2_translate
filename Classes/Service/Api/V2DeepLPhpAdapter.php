@@ -37,14 +37,18 @@ final class V2DeepLPhpAdapter implements DeepLApiAdapterInterface
         $languages = [];
 
         foreach ($sourceLanguages as $language) {
-            $code = $this->normalizeCode((string)($language->code ?? ''));
+            if (!is_object($language) && !is_array($language)) {
+                continue;
+            }
+
+            $code = $this->normalizeCode($this->readValue($language, 'code'));
             if ($code === '') {
                 continue;
             }
 
             $languages[$code] = [
                 'code' => $code,
-                'name' => (string)($language->name ?? $code),
+                'name' => $this->readValue($language, 'name') ?: $code,
                 'enabled' => false,
                 'supportsSource' => true,
                 'supportsTarget' => false,
@@ -52,7 +56,11 @@ final class V2DeepLPhpAdapter implements DeepLApiAdapterInterface
         }
 
         foreach ($targetLanguages as $language) {
-            $code = $this->normalizeCode((string)($language->code ?? ''));
+            if (!is_object($language) && !is_array($language)) {
+                continue;
+            }
+
+            $code = $this->normalizeCode($this->readValue($language, 'code'));
             if ($code === '') {
                 continue;
             }
@@ -60,7 +68,7 @@ final class V2DeepLPhpAdapter implements DeepLApiAdapterInterface
             if (!isset($languages[$code])) {
                 $languages[$code] = [
                     'code' => $code,
-                    'name' => (string)($language->name ?? $code),
+                    'name' => $this->readValue($language, 'name') ?: $code,
                     'enabled' => false,
                     'supportsSource' => false,
                     'supportsTarget' => true,
@@ -68,7 +76,7 @@ final class V2DeepLPhpAdapter implements DeepLApiAdapterInterface
                 continue;
             }
 
-            $languages[$code]['name'] = (string)($language->name ?? $languages[$code]['name']);
+            $languages[$code]['name'] = $this->readValue($language, 'name') ?: (string)$languages[$code]['name'];
             $languages[$code]['supportsTarget'] = true;
         }
 
